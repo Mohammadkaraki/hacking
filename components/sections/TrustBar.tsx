@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { stats } from '@/data/stats';
+import AnimatedBackground from '@/components/effects/AnimatedBackground';
 
 function AnimatedCounter({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
   const [count, setCount] = useState(0);
@@ -40,16 +41,10 @@ function AnimatedCounter({ value, suffix = '', prefix = '' }: { value: number; s
 export default function TrustBar() {
   return (
     <section className="py-16 bg-gradient-to-b from-black via-primary-dark/30 to-black border-y border-accent-cyan/20 relative overflow-hidden">
-      {/* Binary matrix background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 font-mono text-xs text-accent-cyan leading-relaxed">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div key={i} className="whitespace-nowrap">
-              {Array.from({ length: 200 }).map((_, j) => Math.random() > 0.5 ? '1' : '0').join('')}
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Animated backgrounds */}
+      <AnimatedBackground variant="matrix" opacity={0.1} color="#00ff9f" />
+      <AnimatedBackground variant="grid" opacity={0.05} color="#00ff9f" />
+      <AnimatedBackground variant="particles" opacity={0.15} color="#00ff9f" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 relative z-10">
         {/* Certification Badges */}

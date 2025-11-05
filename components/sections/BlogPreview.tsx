@@ -8,18 +8,15 @@ import NeonCard from '@/components/ui/NeonCard';
 import Badge from '@/components/ui/Badge';
 import SectionContainer from '@/components/ui/SectionContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
+import AnimatedBackground from '@/components/effects/AnimatedBackground';
 
 export default function BlogPreview() {
   const router = useRouter();
   return (
     <SectionContainer id="blog" className="bg-gradient-to-b from-black via-primary-dark/40 to-black relative overflow-hidden">
-      {/* Grid overlay */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'linear-gradient(#00ff41 1px, transparent 1px), linear-gradient(90deg, #00ff41 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }}></div>
-      </div>
+      <AnimatedBackground variant="particles" opacity={0.15} color="#ff3366" />
+      <AnimatedBackground variant="scanline" opacity={0.08} color="#ff3366" />
+      <AnimatedBackground variant="diagonal" opacity={0.1} color="#ff3366" />
 
       <SectionHeading
         preheading="💀 INTELLIGENCE BRIEFING"

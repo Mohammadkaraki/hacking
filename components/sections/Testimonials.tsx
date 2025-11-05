@@ -7,6 +7,7 @@ import NeonCard from '@/components/ui/NeonCard';
 import SectionContainer from '@/components/ui/SectionContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import Image from 'next/image';
+import AnimatedBackground from '@/components/effects/AnimatedBackground';
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -23,12 +24,9 @@ export default function Testimonials() {
 
   return (
     <SectionContainer className="bg-gradient-to-b from-primary-dark via-black to-primary-dark relative overflow-hidden">
-      {/* Hacker grid overlay */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, #00ff41 0px, #00ff41 1px, transparent 1px, transparent 20px), repeating-linear-gradient(90deg, #00ff41 0px, #00ff41 1px, transparent 1px, transparent 20px)',
-        }}></div>
-      </div>
+      <AnimatedBackground variant="scanline" opacity={0.1} color="#00d4ff" />
+      <AnimatedBackground variant="diagonal" opacity={0.08} color="#00d4ff" />
+      <AnimatedBackground variant="particles" opacity={0.15} color="#00d4ff" />
 
       <SectionHeading
         preheading="🔥 HALL OF HACKERS"

@@ -4,17 +4,14 @@ import { motion } from 'framer-motion';
 import { features } from '@/data/features';
 import SectionContainer from '@/components/ui/SectionContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
+import AnimatedBackground from '@/components/effects/AnimatedBackground';
 
 export default function WhyChooseUs() {
   return (
     <SectionContainer id="why-choose-us" className="bg-gradient-to-b from-black via-primary-dark/80 to-black relative overflow-hidden">
-      {/* Animated grid background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'linear-gradient(#00ff41 1px, transparent 1px), linear-gradient(90deg, #00ff41 1px, transparent 1px)',
-          backgroundSize: '50px 50px'
-        }}></div>
-      </div>
+      <AnimatedBackground variant="matrix" opacity={0.1} color="#00ff9f" />
+      <AnimatedBackground variant="grid" opacity={0.08} color="#00ff9f" />
+      <AnimatedBackground variant="particles" opacity={0.12} color="#00ff9f" />
 
       <SectionHeading
         preheading="⚡ ARSENAL UNLOCKED"

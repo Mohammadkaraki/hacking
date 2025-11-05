@@ -9,6 +9,7 @@ import Badge from '@/components/ui/Badge';
 import GlowButton from '@/components/ui/GlowButton';
 import SectionContainer from '@/components/ui/SectionContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
+import Image from 'next/image';
 
 export default function FeaturedCourses() {
   const router = useRouter();
@@ -42,13 +43,78 @@ export default function FeaturedCourses() {
   };
 
   return (
-    <SectionContainer id="courses" className="bg-gradient-to-b from-black via-primary-dark/50 to-black relative overflow-hidden">
-      {/* Matrix rain effect background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, #00ff41 0px, #00ff41 1px, transparent 1px, transparent 40px)',
-        }}></div>
+    <SectionContainer id="courses" className="bg-gradient-to-b from-black via-[#0a0d1a] to-black relative overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 opacity-20">
+        <Image
+          src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop"
+          alt="Background"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black"></div>
       </div>
+
+      {/* Matrix rain effect */}
+      <div className="absolute inset-0 overflow-hidden opacity-15">
+        {Array.from({ length: 50 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-green-500 font-mono text-xs"
+            style={{
+              left: `${i * 2}%`,
+              top: '-100px'
+            }}
+            animate={{
+              y: ['0px', '150vh'],
+            }}
+            transition={{
+              duration: Math.random() * 5 + 4,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: Math.random() * 5,
+            }}
+          >
+            {Array.from({ length: 25 }).map((_, j) => (
+              <div key={j} className="leading-tight">{Math.random() > 0.5 ? '1' : '0'}</div>
+            ))}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Scanline effect */}
+      <motion.div
+        className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-25"
+        animate={{ y: ['0vh', '100vh'] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+      />
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-[0.05]" style={{
+        backgroundImage: `
+          linear-gradient(0deg, #00ff41 1px, transparent 1px),
+          linear-gradient(90deg, #00ff41 1px, transparent 1px)
+        `,
+        backgroundSize: '50px 50px'
+      }}></div>
+
+      {/* Glowing orbs */}
+      <motion.div
+        className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-green-500/20 rounded-full blur-[150px]"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.4, 0.2],
+        }}
+        transition={{ duration: 10, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/15 rounded-full blur-[150px]"
+        animate={{
+          scale: [1.3, 1, 1.3],
+          opacity: [0.4, 0.2, 0.4],
+        }}
+        transition={{ duration: 10, repeat: Infinity, delay: 5 }}
+      />
 
       <SectionHeading
         preheading="💀 ARSENAL ACCESS GRANTED"
