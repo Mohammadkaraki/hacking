@@ -1,0 +1,228 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   // For email/password auth (hashed)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  purchases     Purchase[]
+  downloads     Download[]
+  reviews       CourseReview[]
+}
+
+// NextAuth account model
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// NextAuth session model
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// NextAuth verification token
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Course model
+model Course {
+  id              String    @id @default(cuid())
+  title           String
+  description     String    @db.Text
+  thumbnail       String
+  difficulty      String    // 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert'
+  duration        String
+  lessons         Int
+  price           Float
+  originalPrice   Float
+  category        String
+  instructor      String
+  rating          Float     @default(0)
+  featured        Boolean   @default(false)
+  active          Boolean   @default(true)
+
+  // Course content
+  prerequisites   String[]  // Array of prerequisites
+  whatYouLearn    String[]  // Array of learning outcomes
+
+  // Sale/Discount tracking
+  saleActive      Boolean   @default(false)
+  saleStartDate   DateTime?
+  saleEndDate     DateTime?
+  discountPercentage Float?
+
+  // Rich content
+  videoPreviewUrl String?
+  highlights      String[]  @default([])
+  targetAudience  String[]  @default([])
+  faqs            Json?     // Array of {question, answer}
+
+  // Instructor details
+  instructorBio   String?   @db.Text
+  instructorAvatar String?
+  instructorCredentials String[] @default([])
+
+  // Additional metadata
+  lastContentUpdate DateTime?
+  totalVideoHours Float?
+
+  // AWS S3 file information
+  s3BucketName    String?
+  s3FileKey       String?   // S3 key for course file
+  fileSize        BigInt?   // File size in bytes
+  fileType        String?   // zip, pdf, etc.
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  purchases       Purchase[]
+  downloads       Download[]
+  modules         CourseModule[]
+  reviews         CourseReview[]
+}
+
+// Purchase model
+model Purchase {
+  id                    String    @id @default(cuid())
+  userId                String
+  courseId              String
+
+  // Payment information (Stripe)
+  stripePaymentIntentId String    @unique
+  stripeSessionId       String?
+  amount                Float
+  currency              String    @default("USD")
+  status                String    // 'pending', 'completed', 'failed', 'refunded'
+
+  purchaseDate          DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course                Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+// Download tracking model
+model Download {
+  id              String    @id @default(cuid())
+  userId          String
+  courseId        String
+
+  // Download information
+  downloadUrl     String    @db.Text  // Pre-signed S3 URL
+  expiresAt       DateTime              // URL expiration time
+  downloaded      Boolean   @default(false)
+  downloadedAt    DateTime?
+  ipAddress       String?
+
+  createdAt       DateTime  @default(now())
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([courseId])
+}
+
+// Course module model
+model CourseModule {
+  id              String    @id @default(cuid())
+  courseId        String
+  title           String
+  description     String?   @db.Text
+  order           Int       // Display order
+  duration        String    // e.g., "2 hours"
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons         CourseLesson[]
+
+  @@index([courseId])
+  @@index([courseId, order])
+}
+
+// Course lesson model
+model CourseLesson {
+  id              String    @id @default(cuid())
+  moduleId        String
+  title           String
+  duration        String    // e.g., "15 minutes"
+  order           Int       // Display order within module
+  isFree          Boolean   @default(false) // Free preview lesson
+  videoUrl        String?   // Optional video URL
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  module          CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@index([moduleId])
+  @@index([moduleId, order])
+}
+
+// Course review model
+model CourseReview {
+  id              String    @id @default(cuid())
+  courseId        String
+  userId          String
+  rating          Float     // 1-5 stars
+  review          String    @db.Text
+  helpful         Int       @default(0) // Helpful count
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId]) // One review per user per course
+  @@index([courseId])
+  @@index([userId])
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@14:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma init)",
+      "Bash(powershell -Command \"Compress-Archive -Path course-content.txt -DestinationPath ethical-hacking.zip -Force\")",
+      "Bash(npm run db:generate:*)",
+      "Bash(npm run db:migrate:*)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "cybersecurity-courses",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:studio": "prisma studio",
+    "s3:upload": "tsx scripts/upload-to-s3.ts",
+    "s3:list": "tsx scripts/list-courses.ts",
+    "cleanup": "tsx scripts/cleanup.ts"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@aws-sdk/client-s3": "^3.921.0",
+    "@aws-sdk/s3-request-presigner": "^3.921.0",
+    "@prisma/client": "^6.18.0",
+    "@stripe/stripe-js": "^8.2.0",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.3",
+    "framer-motion": "^11.5.4",
+    "gsap": "^3.12.5",
+    "next": "14.2.13",
+    "next-auth": "^4.24.13",
+    "prisma": "^6.18.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "resend": "^6.4.0",
+    "stripe": "^19.2.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5"
+  }
+}
