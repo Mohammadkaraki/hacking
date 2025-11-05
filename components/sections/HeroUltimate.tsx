@@ -1,391 +1,372 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import GlowButton from '@/components/ui/GlowButton';
+import Image from 'next/image';
 
 export default function HeroUltimate() {
   const router = useRouter();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const [mounted, setMounted] = useState(false);
+  const [hackText, setHackText] = useState('');
+  const [matrixColumns, setMatrixColumns] = useState<number[]>([]);
+
+  const fullText = 'ACCESSING SECURE SYSTEM...';
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    setMounted(true);
+
+    // Matrix effect columns
+    const cols = Array.from({ length: 50 }, (_, i) => i);
+    setMatrixColumns(cols);
+
+    // Typing effect
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= fullText.length) {
+        setHackText(fullText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 80);
+
+    return () => clearInterval(timer);
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Photo Background with Unsplash */}
+    <section className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+      {/* Background with image */}
       <div className="absolute inset-0">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop')`,
-          }}
-        >
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/95 via-black/90 to-primary-dark/95"></div>
-        </div>
-
-        {/* Animated digital rain effect */}
-        <div className="absolute inset-0 opacity-20">
-          {[...Array(50)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-px bg-accent-cyan"
-              style={{
-                left: `${(i * 2)}%`,
-                height: '100px',
-              }}
-              animate={{
-                y: [-100, 1200],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 2 + 3,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-                ease: 'linear',
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Interactive light beam following mouse */}
-        <div
-          className="absolute inset-0 opacity-30 transition-all duration-300 pointer-events-none"
-          style={{
-            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 255, 159, 0.2) 0%, transparent 50%)`,
-          }}
+        <Image
+          src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop"
+          alt="Hacking Background"
+          fill
+          className="object-cover opacity-20"
+          priority
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
       </div>
 
-      {/* Main Content */}
-      <motion.div
-        style={{ y, opacity }}
-        className="relative z-40 max-w-7xl mx-auto px-4 md:px-8 lg:px-16 w-full"
-      >
-        <div className="grid lg:grid-cols-2 gap-8 items-center py-8">
-          {/* Left Side - Epic Content */}
-          <div className="space-y-4">
-            {/* Security Alert Badge */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-3 px-5 py-3 bg-accent-red/20 border border-accent-red/50 rounded-lg backdrop-blur-md"
-            >
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-3 h-3 bg-accent-red rounded-full"
-              />
-              <span className="text-accent-red font-mono font-bold text-sm tracking-wider">
-                SECURITY ALERT: UNAUTHORIZED ACCESS DETECTED
-              </span>
-            </motion.div>
+      {/* Matrix rain effect */}
+      <div className="absolute inset-0 overflow-hidden opacity-20">
+        {matrixColumns.map((col) => (
+          <motion.div
+            key={col}
+            className="absolute top-0 text-green-500 font-mono text-sm"
+            style={{ left: `${col * 2}%` }}
+            animate={{
+              y: ['0vh', '100vh'],
+            }}
+            transition={{
+              duration: Math.random() * 3 + 2,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: Math.random() * 2,
+            }}
+          >
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div key={i}>{Math.random() > 0.5 ? '1' : '0'}</div>
+            ))}
+          </motion.div>
+        ))}
+      </div>
 
-            {/* Massive Title */}
-            <div className="space-y-2">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none">
-                  <motion.span
-                    className="block text-white"
+      {/* Scanline effect */}
+      <motion.div
+        className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-30"
+        animate={{ y: ['0vh', '100vh'] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+      />
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `
+          linear-gradient(0deg, #00ff41 1px, transparent 1px),
+          linear-gradient(90deg, #00ff41 1px, transparent 1px)
+        `,
+        backgroundSize: '50px 50px'
+      }}></div>
+
+      {/* Main Content */}
+      <div className="relative z-40 w-full max-w-7xl mx-auto px-6 flex items-center justify-between gap-16">
+        {/* Left Side - Main Content */}
+        <div className="flex-1 space-y-8">
+          {/* Typing indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-3 text-green-500 font-mono text-sm mb-8"
+          >
+            <motion.div
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-3 h-3 bg-green-500 rounded-full shadow-[0_0_10px_#00ff41]"
+            />
+            <span>{hackText}</span>
+            <motion.span
+              animate={{ opacity: [1, 0] }}
+              transition={{ duration: 0.5, repeat: Infinity }}
+              className="inline-block w-2 h-4 bg-green-500"
+            />
+          </motion.div>
+
+          {/* Main Headline */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <div className="space-y-4">
+              <h1 className="text-7xl lg:text-8xl font-black leading-none">
+                <div className="text-white mb-2">HACK</div>
+                <div className="relative inline-block">
+                  <motion.div
+                    className="text-green-500"
                     animate={{
                       textShadow: [
-                        '0 0 30px rgba(0, 255, 159, 0.5)',
-                        '0 0 60px rgba(0, 255, 159, 0.8)',
-                        '0 0 30px rgba(0, 255, 159, 0.5)',
+                        '0 0 20px #00ff41',
+                        '0 0 40px #00ff41',
+                        '0 0 20px #00ff41',
                       ],
                     }}
-                    transition={{ duration: 3, repeat: Infinity }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   >
-                    HACK
-                  </motion.span>
-
-                  <span className="block relative">
-                    <motion.span
-                      className="relative z-10 bg-gradient-to-r from-accent-cyan via-accent-blue to-accent-green bg-clip-text text-transparent"
-                      animate={{
-                        backgroundPosition: ['0%', '100%'],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: 'linear',
-                      }}
-                      style={{ backgroundSize: '200% auto' }}
-                    >
-                      THE SYSTEM
-                    </motion.span>
-
-                    {/* Glitch effect overlay */}
-                    <motion.span
-                      className="absolute inset-0 text-accent-red"
-                      animate={{
-                        x: [-2, 2, -2],
-                        opacity: [0, 0.5, 0],
-                      }}
-                      transition={{
-                        duration: 0.2,
-                        repeat: Infinity,
-                        repeatDelay: 3,
-                      }}
-                    >
-                      THE SYSTEM
-                    </motion.span>
-                  </span>
-                </h1>
-              </motion.div>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed"
-              >
-                Master <span className="text-accent-cyan font-bold">ethical hacking</span>,
-                <span className="text-accent-cyan font-bold"> penetration testing</span>, and become an
-                <span className="text-accent-green font-bold"> elite cybersecurity professional</span>
-              </motion.p>
-            </div>
-
-            {/* Terminal-style info box */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="bg-black/60 backdrop-blur-md border border-accent-cyan/30 rounded-lg p-4 font-mono text-xs"
-            >
-              <div className="flex items-center gap-2 mb-2 text-accent-cyan">
-                <span className="text-accent-green">root@cyberacademy</span>
-                <span className="text-white">~</span>
-                <span className="text-accent-cyan">$</span>
-                <motion.span
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                >
-                  _
-                </motion.span>
-              </div>
-              <div className="space-y-2 text-text-secondary">
-                <div className="flex items-center gap-2">
-                  <span className="text-accent-green">✓</span>
-                  <span>10,000+ Active Security Professionals</span>
+                    THE SYSTEM
+                  </motion.div>
+                  {/* Glitch bars */}
+                  <motion.div
+                    className="absolute -left-2 top-1/3 w-full h-1 bg-red-500"
+                    animate={{ x: [-10, 10, -10], opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
+                  />
+                  <motion.div
+                    className="absolute -right-2 top-2/3 w-full h-1 bg-cyan-500"
+                    animate={{ x: [10, -10, 10], opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 3, delay: 0.1 }}
+                  />
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-accent-green">✓</span>
-                  <span>50+ Industry-Certified Courses</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-accent-green">✓</span>
-                  <span>Live Hacking Labs & Real-World Scenarios</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-accent-green">✓</span>
-                  <span>24/7 Expert Support & Community</span>
-                </div>
-              </div>
-            </motion.div>
+              </h1>
 
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <GlowButton size="lg" className="text-lg px-8 py-3 group" onClick={() => router.push('/courses')}>
-                <span className="flex items-center gap-3">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                  </svg>
-                  Start Hacking Now
-                  <motion.svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </motion.svg>
-                </span>
-              </GlowButton>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  const coursesSection = document.getElementById('courses');
-                  coursesSection?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-8 py-3 text-lg bg-white/5 backdrop-blur-md border-2 border-white/20 text-white rounded-lg font-heading font-semibold hover:bg-white/10 hover:border-accent-cyan transition-all duration-300"
-              >
-                Featured Courses →
-              </motion.button>
-            </motion.div>
-          </div>
-
-          {/* Right Side - Interactive Stats Panel */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative"
-          >
-            {/* Main Panel */}
-            <div className="relative bg-black/40 backdrop-blur-xl border border-accent-cyan/30 rounded-2xl p-5 shadow-2xl">
-              {/* Animated corner brackets */}
-              <div className="absolute top-0 left-0 w-20 h-20 border-t-4 border-l-4 border-accent-cyan rounded-tl-2xl"></div>
-              <div className="absolute top-0 right-0 w-20 h-20 border-t-4 border-r-4 border-accent-cyan rounded-tr-2xl"></div>
-              <div className="absolute bottom-0 left-0 w-20 h-20 border-b-4 border-l-4 border-accent-cyan rounded-bl-2xl"></div>
-              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-4 border-r-4 border-accent-cyan rounded-br-2xl"></div>
-
-              <div className="space-y-4 relative z-10">
-                {/* Header */}
-                <div className="flex items-center justify-between pb-4 border-b border-accent-cyan/30">
-                  <div className="flex items-center gap-2">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                      className="w-3 h-3 border-2 border-accent-cyan border-t-transparent rounded-full"
-                    />
-                    <span className="text-accent-cyan font-mono font-bold tracking-wider">
-                      LIVE STATS
-                    </span>
-                  </div>
-                  <span className="text-xs text-text-secondary font-mono">REAL-TIME</span>
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { label: 'Students Active', value: '10,247', trend: '+12%', color: 'accent-cyan' },
-                    { label: 'Courses Live', value: '50+', trend: '+5', color: 'accent-blue' },
-                    { label: 'Success Rate', value: '95.7%', trend: '+2.3%', color: 'accent-green' },
-                    { label: 'Labs Running', value: '1,429', trend: '+89', color: 'accent-red' },
-                  ].map((stat, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.8 + index * 0.1 }}
-                      whileHover={{ scale: 1.05, y: -5 }}
-                      className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5 hover:border-accent-cyan/50 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="text-xs text-text-secondary mb-2 uppercase tracking-wider">
-                        {stat.label}
-                      </div>
-                      <div className={`text-3xl font-bold text-${stat.color} mb-1`}>
-                        {stat.value}
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-accent-green">
-                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                        </svg>
-                        <span>{stat.trend}</span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Certifications */}
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5">
-                  <div className="text-sm font-semibold text-text-heading mb-3 uppercase tracking-wider">
-                    Industry Certifications
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {['CEH', 'OSCP', 'CompTIA', 'CISSP', 'CEH Master', 'GPEN'].map((cert, index) => (
-                      <motion.span
-                        key={index}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 1.2 + index * 0.1 }}
-                        whileHover={{ scale: 1.1 }}
-                        className="px-3 py-1.5 bg-accent-cyan/20 text-accent-cyan text-xs font-mono font-bold rounded-md border border-accent-cyan/50 cursor-pointer hover:bg-accent-cyan/30 transition-colors"
-                      >
-                        {cert}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Progress bars */}
-                <div className="space-y-3">
-                  {[
-                    { label: 'Network Security', progress: 95 },
-                    { label: 'Web Application', progress: 88 },
-                    { label: 'Malware Analysis', progress: 92 },
-                  ].map((item, index) => (
-                    <div key={index}>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-text-secondary">{item.label}</span>
-                        <span className="text-accent-cyan font-mono">{item.progress}%</span>
-                      </div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${item.progress}%` }}
-                          transition={{ duration: 1.5, delay: 1 + index * 0.2 }}
-                          className="h-full bg-gradient-to-r from-accent-cyan to-accent-blue"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Glowing effect */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl opacity-0"
-                animate={{
-                  opacity: [0, 0.1, 0],
-                  boxShadow: [
-                    '0 0 0px rgba(0, 255, 159, 0)',
-                    '0 0 40px rgba(0, 255, 159, 0.4)',
-                    '0 0 0px rgba(0, 255, 159, 0)',
-                  ],
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
+              <p className="text-xl text-gray-400 max-w-xl leading-relaxed">
+                Master <span className="text-green-500 font-semibold">offensive security</span>,
+                penetration testing, and ethical hacking. From zero to elite hacker.
+              </p>
             </div>
           </motion.div>
-        </div>
-      </motion.div>
 
-      {/* Animated scan line */}
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex gap-8"
+          >
+            {[
+              { label: 'Students', value: '15K+' },
+              { label: 'Success', value: '97%' },
+              { label: 'Courses', value: '50+' },
+            ].map((stat, i) => (
+              <div key={i} className="group cursor-pointer">
+                <div className="text-3xl font-black text-green-500 font-mono group-hover:text-green-400 transition-colors">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-gray-500 uppercase tracking-wider">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="flex gap-4 pt-4"
+          >
+            <motion.button
+              onClick={() => router.push('/courses')}
+              className="group relative px-8 py-4 bg-green-500 text-black font-bold rounded-lg overflow-hidden"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <motion.div
+                className="absolute inset-0 bg-green-400"
+                initial={{ x: '-100%' }}
+                whileHover={{ x: 0 }}
+                transition={{ duration: 0.3 }}
+              />
+              <span className="relative flex items-center gap-2">
+                <span>&gt;</span>
+                <span>START_HACKING</span>
+              </span>
+            </motion.button>
+
+            <motion.button
+              onClick={() => {
+                const coursesSection = document.getElementById('courses');
+                coursesSection?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="px-8 py-4 border-2 border-green-500/50 text-green-500 font-bold rounded-lg hover:bg-green-500/10 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              EXPLORE_COURSES
+            </motion.button>
+          </motion.div>
+        </div>
+
+        {/* Right Side - Terminal Window */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="hidden lg:block flex-1 max-w-2xl"
+        >
+          <div className="relative">
+            {/* Terminal */}
+            <div className="bg-black/90 backdrop-blur-xl border-2 border-green-500/30 rounded-lg overflow-hidden shadow-[0_0_50px_rgba(0,255,65,0.3)]">
+              {/* Terminal header */}
+              <div className="flex items-center justify-between px-4 py-3 bg-green-500/10 border-b border-green-500/30">
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <span className="text-xs font-mono text-green-500">root@cyberacademy</span>
+                </div>
+                <motion.div
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="text-xs font-mono text-green-500 flex items-center gap-2"
+                >
+                  <div className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_5px_#00ff41]"></div>
+                  CONNECTED
+                </motion.div>
+              </div>
+
+              {/* Terminal content */}
+              <div className="p-6 font-mono text-sm space-y-2 h-[400px] overflow-hidden">
+                <TerminalLine delay={0}>$ whoami</TerminalLine>
+                <TerminalLine delay={0.4} color="text-green-500">elite_hacker</TerminalLine>
+
+                <TerminalLine delay={0.8}>$ ls -la /skills</TerminalLine>
+                <TerminalLine delay={1.2} color="text-green-400">drwxr-xr-x network_penetration</TerminalLine>
+                <TerminalLine delay={1.4} color="text-green-400">drwxr-xr-x web_exploitation</TerminalLine>
+                <TerminalLine delay={1.6} color="text-green-400">drwxr-xr-x privilege_escalation</TerminalLine>
+                <TerminalLine delay={1.8} color="text-green-400">drwxr-xr-x exploit_development</TerminalLine>
+
+                <TerminalLine delay={2.2}>$ cat /status/progress.txt</TerminalLine>
+                <TerminalLine delay={2.6} color="text-cyan-400">[████████████████████] 100%</TerminalLine>
+                <TerminalLine delay={3} color="text-yellow-400">[!] All systems compromised</TerminalLine>
+
+                <TerminalLine delay={3.4}>$ sudo ./dominate_cybersecurity.sh</TerminalLine>
+                <TerminalLine delay={3.8} color="text-green-500">[+] Access granted</TerminalLine>
+                <TerminalLine delay={4.2} color="text-green-500">[+] Root privileges obtained</TerminalLine>
+                <TerminalLine delay={4.6} color="text-green-500">[+++] YOU ARE NOW IN CONTROL</TerminalLine>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 5 }}
+                  className="flex items-center gap-2 text-green-500 pt-4"
+                >
+                  <span>$</span>
+                  <motion.span
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                    className="inline-block w-2 h-4 bg-green-500"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Terminal footer */}
+              <div className="px-6 py-4 bg-green-500/5 border-t border-green-500/20 flex items-center justify-between text-xs font-mono">
+                <div className="flex gap-6 text-gray-500">
+                  <span>Lines: 847</span>
+                  <span>Exploits: 1.2K</span>
+                  <span>Success: 97%</span>
+                </div>
+                <div className="text-green-500">UTF-8</div>
+              </div>
+            </div>
+
+            {/* Floating badges */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.5, type: 'spring' }}
+              className="absolute -top-4 -right-4 bg-green-500 text-black px-4 py-2 rounded-lg font-bold shadow-lg"
+            >
+              <div className="text-2xl">⚡</div>
+              <div className="text-xs">LIVE</div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.7, type: 'spring' }}
+              className="absolute -bottom-4 -left-4 bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg"
+            >
+              <div className="text-2xl">🔥</div>
+              <div className="text-xs">HOT</div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Corner brackets */}
+      <div className="absolute top-8 left-8 w-16 h-16 border-t-2 border-l-2 border-green-500/50"></div>
+      <div className="absolute top-8 right-8 w-16 h-16 border-t-2 border-r-2 border-green-500/50"></div>
+      <div className="absolute bottom-8 left-8 w-16 h-16 border-b-2 border-l-2 border-green-500/50"></div>
+      <div className="absolute bottom-8 right-8 w-16 h-16 border-b-2 border-r-2 border-green-500/50"></div>
+
+      {/* Scroll indicator */}
       <motion.div
-        className="absolute inset-0 pointer-events-none z-50"
-        style={{
-          background: 'linear-gradient(180deg, transparent 0%, rgba(0, 255, 159, 0.1) 50%, transparent 100%)',
-          height: '200px',
-        }}
-        animate={{
-          y: ['-200px', 'calc(100vh + 200px)'],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-      />
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="flex flex-col items-center gap-2 cursor-pointer"
+          onClick={() => {
+            const coursesSection = document.getElementById('courses');
+            coursesSection?.scrollIntoView({ behavior: 'smooth' });
+          }}
+        >
+          <span className="text-xs text-green-500 font-mono">SCROLL_DOWN</span>
+          <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </motion.div>
+      </motion.div>
     </section>
+  );
+}
+
+// Helper Component
+function TerminalLine({
+  children,
+  delay,
+  color = 'text-gray-300'
+}: {
+  children: React.ReactNode;
+  delay: number;
+  color?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay, duration: 0.2 }}
+      className={`${color} font-mono text-sm`}
+    >
+      {children}
+    </motion.div>
   );
 }
