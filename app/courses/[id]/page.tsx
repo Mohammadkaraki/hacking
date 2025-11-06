@@ -123,12 +123,95 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   const currentPrice = saleStatus.isActive ? course.price : course.originalPrice;
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-bg-dark via-bg-dark/98 to-bg-dark">
-      {/* Background Effects */}
-      <MatrixRainBright />
-      <GridPatternBright />
-      <ParticleFieldBright />
-      <CursorTrail />
+    <div className="min-h-screen relative" style={{ background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #0f1419 50%, #1e293b 75%, #0a0e27 100%)' }}>
+      {/* STUNNING PROFESSIONAL HACKER BACKGROUND - Enhanced Attraction */}
+
+      {/* Layer 1: Deep rich gradient base */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-gray-900/95 to-slate-900/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-green-950/10 via-transparent to-cyan-950/10"></div>
+      </div>
+
+      {/* Layer 2: Animated flowing color spotlights */}
+      <motion.div
+        className="absolute inset-0 opacity-25"
+        animate={{
+          background: [
+            'radial-gradient(circle at 20% 20%, rgba(0,255,65,0.2) 0%, transparent 40%)',
+            'radial-gradient(circle at 80% 80%, rgba(0,255,255,0.2) 0%, transparent 40%)',
+            'radial-gradient(circle at 50% 50%, rgba(0,150,255,0.2) 0%, transparent 40%)',
+            'radial-gradient(circle at 20% 20%, rgba(0,255,65,0.2) 0%, transparent 40%)',
+          ]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+      />
+
+      {/* Layer 3: Prominent grid pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-25">
+        <div className="absolute inset-0 grid-pattern"></div>
+      </div>
+
+      {/* Layer 4: Enhanced Binary code rain - More visible */}
+      <div className="absolute inset-0 overflow-hidden opacity-15 pointer-events-none">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <motion.div
+            key={`binary-${i}`}
+            className="absolute font-mono text-sm leading-relaxed"
+            style={{
+              left: `${i * 5}%`,
+              color: i % 3 === 0 ? '#00ff41' : i % 3 === 1 ? '#00ffff' : '#00ff99',
+              textShadow: '0 0 5px currentColor',
+            }}
+            animate={{
+              y: ['-100%', '100vh'],
+            }}
+            transition={{
+              duration: Math.random() * 25 + 20,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: Math.random() * 12,
+            }}
+          >
+            {Array.from({ length: 30 }).map((_, j) => (
+              <div key={j}>{Math.random() > 0.5 ? '1' : '0'}</div>
+            ))}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Layer 5: Large atmospheric glowing orbs */}
+      <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-green-500/12 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute top-1/3 right-20 w-[450px] h-[450px] bg-cyan-500/12 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-20 right-1/3 w-[480px] h-[480px] bg-green-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      {/* Layer 6: More prominent glowing nodes */}
+      <div className="absolute top-1/5 left-1/6 w-3 h-3 bg-green-400 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#00ff41]"></div>
+      <div className="absolute top-2/5 right-1/5 w-3 h-3 bg-cyan-400 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#00ffff]" style={{ animationDelay: '250ms' }}></div>
+      <div className="absolute bottom-1/4 left-2/5 w-3 h-3 bg-green-500 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#00ff41]" style={{ animationDelay: '500ms' }}></div>
+      <div className="absolute top-3/5 right-1/4 w-3 h-3 bg-blue-400 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#0096ff]" style={{ animationDelay: '750ms' }}></div>
+      <div className="absolute bottom-1/3 left-1/2 w-2.5 h-2.5 bg-cyan-500 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_15px_#00ffff]" style={{ animationDelay: '1000ms' }}></div>
+      <div className="absolute top-1/2 left-1/4 w-2.5 h-2.5 bg-green-300 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_15px_#00ff99]" style={{ animationDelay: '1250ms' }}></div>
+
+      {/* Layer 7: Hexagonal tech pattern overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill='none' stroke='%2300ff41' stroke-width='1'/%3E%3C/svg%3E")`,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Layer 8: Scanline effect for terminal feel */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.07]"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.15) 2px, rgba(0,255,65,0.15) 4px)',
+        }}
+      />
+
+      {/* Layer 9: Vignette for depth and focus */}
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-slate-950/70 pointer-events-none"></div>
 
       {/* Navbar - Always visible with proper z-index */}
       <Navbar />
@@ -148,14 +231,8 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
             {/* Left Column - All Content (2/3) */}
             <div className="lg:col-span-2 space-y-8">
 
-        {/* Hero Section - ENHANCED & OPTIMIZED FOR CONVERSION */}
+        {/* Hero Section - PROFESSIONAL ENHANCED */}
         <div className="relative py-8 md:py-12">
-          {/* Ambient background effects */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none -mx-4">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-cyan/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl"></div>
-          </div>
-
           <div className="relative z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -190,10 +267,17 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                     )}
                   </div>
 
-                  {/* Title - LARGEST, MOST VISIBLE */}
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 leading-tight bg-gradient-to-r from-white via-white to-accent-cyan bg-clip-text text-transparent">
-                    {course.title}
-                  </h1>
+                  {/* Title - ENHANCED WITH GLOW */}
+                  <motion.h1
+                    className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 leading-tight"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <span className="bg-gradient-to-r from-white via-green-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(0,255,65,0.3)]">
+                      {course.title}
+                    </span>
+                  </motion.h1>
 
                   {/* Value Proposition / Description */}
                   <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed max-w-3xl">
@@ -241,17 +325,18 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                     </GlowButton>
                   </div>
 
-                  {/* Course Image/Video - ENHANCED VISUAL */}
+                  {/* Course Image/Video - ENHANCED WITH CYBERPUNK GLOW */}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2 }}
-                    className="relative aspect-video rounded-2xl overflow-hidden border-2 border-accent-cyan/40 shadow-2xl shadow-accent-cyan/20 group"
+                    className="relative aspect-video rounded-2xl overflow-hidden group"
                   >
-                    {/* Glow effect */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-accent-cyan via-accent-blue to-accent-cyan opacity-30 blur-xl group-hover:opacity-50 transition-opacity duration-500"></div>
+                    {/* Multi-layer glow effect */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-green-500 via-cyan-500 to-green-500 opacity-30 blur-xl group-hover:opacity-60 transition-opacity duration-500"></div>
+                    <div className="absolute -inset-2 bg-gradient-to-r from-green-500 via-cyan-500 to-green-500 opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-500"></div>
 
-                    <div className="relative aspect-video rounded-2xl overflow-hidden bg-black/50 backdrop-blur-sm">
+                    <div className="relative aspect-video rounded-2xl overflow-hidden bg-black/70 backdrop-blur-sm border-2 border-green-500/40 group-hover:border-green-500/70 transition-all duration-500">
                     {course.videoPreviewUrl ? (
                       <video
                         controls
@@ -296,30 +381,33 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
           </div>
         </div>
 
-        {/* Course Content Sections - ENHANCED */}
+        {/* Course Content Sections - CLEAN & PROFESSIONAL */}
         <div className="py-16 relative">
-          {/* Decorative elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30 -mx-4">
-            <div className="absolute top-1/4 left-0 w-64 h-64 bg-accent-cyan/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-accent-blue/5 rounded-full blur-3xl"></div>
-          </div>
-
           <div className="relative z-10">
-                {/* Content Tabs - ENHANCED */}
+                {/* Content Tabs - CYBERPUNK STYLE */}
                 <div className="mb-8">
-                  <div className="flex items-center gap-2 bg-card-bg/50 border border-accent-cyan/20 rounded-xl p-2 mb-8 overflow-x-auto backdrop-blur-sm">
+                  <div className="flex items-center gap-2 bg-gray-900/50 border-2 border-green-500/30 rounded-xl p-2 mb-8 overflow-x-auto backdrop-blur-xl">
                     {['overview', 'curriculum', 'reviews'].map((tab) => (
-                      <button
+                      <motion.button
                         key={tab}
                         onClick={() => setActiveTab(tab as any)}
-                        className={`px-6 py-3 font-semibold capitalize relative transition-all duration-300 whitespace-nowrap rounded-lg ${
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`relative px-6 py-3 font-bold capitalize transition-all duration-300 whitespace-nowrap rounded-lg overflow-hidden ${
                           activeTab === tab
-                            ? 'bg-gradient-to-r from-accent-cyan to-accent-blue text-white shadow-lg shadow-accent-cyan/30'
-                            : 'text-text-secondary hover:text-white hover:bg-white/5'
+                            ? 'text-black'
+                            : 'text-gray-400 hover:text-green-400'
                         }`}
                       >
-                        {tab}
-                      </button>
+                        {activeTab === tab && (
+                          <motion.div
+                            layoutId="activeTab"
+                            className="absolute inset-0 bg-gradient-to-r from-green-500 to-cyan-500 rounded-lg"
+                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                        <span className="relative z-10">{tab}</span>
+                      </motion.button>
                     ))}
                   </div>
 
@@ -331,17 +419,25 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                       animate={{ opacity: 1, y: 0 }}
                       className="space-y-8"
                     >
-                      {/* What You'll Learn - ENHANCED */}
+                      {/* What You'll Learn - CYBERPUNK ENHANCED */}
                       {course.whatYouLearn && course.whatYouLearn.length > 0 && (
-                        <div className="bg-gradient-to-br from-card-bg to-card-bg/50 border-2 border-accent-cyan/20 rounded-2xl p-8 shadow-xl shadow-black/20 backdrop-blur-sm">
-                          <h2 className="text-2xl font-heading font-bold mb-6 bg-gradient-to-r from-accent-cyan to-accent-blue bg-clip-text text-transparent">
+                        <div className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-black border-2 border-green-500/30 rounded-2xl p-8 shadow-xl shadow-green-500/10 backdrop-blur-sm overflow-hidden">
+                          {/* Glow effect */}
+                          <div className="absolute -inset-1 bg-gradient-to-r from-green-500/10 to-cyan-500/10 blur-xl pointer-events-none"></div>
+                          <h2 className="relative text-2xl font-heading font-bold mb-6 bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,255,65,0.3)]">
                             What You'll Learn
                           </h2>
-                          <ul className="grid md:grid-cols-2 gap-4">
+                          <ul className="relative grid md:grid-cols-2 gap-4">
                             {course.whatYouLearn.map((item, index) => (
-                              <li key={index} className="flex items-start gap-3">
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="flex items-start gap-3 group"
+                              >
                                 <svg
-                                  className="w-6 h-6 text-accent-cyan flex-shrink-0 mt-0.5"
+                                  className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5 group-hover:text-cyan-500 transition-colors"
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                 >
@@ -351,41 +447,55 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                                     clipRule="evenodd"
                                   />
                                 </svg>
-                                <span className="text-text-secondary">{item}</span>
-                              </li>
+                                <span className="text-gray-300 group-hover:text-white transition-colors">{item}</span>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
                       )}
 
-                      {/* Prerequisites - ENHANCED */}
+                      {/* Prerequisites - CYBERPUNK */}
                       {course.prerequisites && course.prerequisites.length > 0 && (
-                        <div className="bg-gradient-to-br from-card-bg to-card-bg/50 border-2 border-accent-blue/20 rounded-2xl p-8 shadow-xl shadow-black/20 backdrop-blur-sm">
-                          <h2 className="text-2xl font-heading font-bold mb-6 bg-gradient-to-r from-accent-blue to-accent-cyan bg-clip-text text-transparent">
+                        <div className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-black border-2 border-cyan-500/30 rounded-2xl p-8 shadow-xl shadow-cyan-500/10 backdrop-blur-sm overflow-hidden">
+                          <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 blur-xl pointer-events-none"></div>
+                          <h2 className="relative text-2xl font-heading font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,255,255,0.3)]">
                             Prerequisites
                           </h2>
-                          <ul className="space-y-3">
+                          <ul className="relative space-y-3">
                             {course.prerequisites.map((prereq, index) => (
-                              <li key={index} className="flex items-start gap-3">
-                                <div className="w-2 h-2 bg-accent-cyan rounded-full mt-2 flex-shrink-0" />
-                                <span className="text-text-secondary">{prereq}</span>
-                              </li>
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="flex items-start gap-3 group"
+                              >
+                                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 flex-shrink-0 group-hover:bg-green-500 transition-colors shadow-[0_0_10px_currentColor]" />
+                                <span className="text-gray-300 group-hover:text-white transition-colors">{prereq}</span>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
                       )}
 
-                      {/* Target Audience - ENHANCED */}
+                      {/* Target Audience - CYBERPUNK */}
                       {course.targetAudience && course.targetAudience.length > 0 && (
-                        <div className="bg-gradient-to-br from-card-bg to-card-bg/50 border-2 border-purple-500/20 rounded-2xl p-8 shadow-xl shadow-black/20 backdrop-blur-sm">
-                          <h2 className="text-2xl font-heading font-bold mb-6 bg-gradient-to-r from-purple-400 to-accent-cyan bg-clip-text text-transparent">
+                        <div className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-black border-2 border-purple-500/30 rounded-2xl p-8 shadow-xl shadow-purple-500/10 backdrop-blur-sm overflow-hidden">
+                          <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 blur-xl pointer-events-none"></div>
+                          <h2 className="relative text-2xl font-heading font-bold mb-6 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">
                             Who is this course for?
                           </h2>
-                          <ul className="space-y-3">
+                          <ul className="relative space-y-3">
                             {course.targetAudience.map((audience, index) => (
-                              <li key={index} className="flex items-start gap-3">
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="flex items-start gap-3 group"
+                              >
                                 <svg
-                                  className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5"
+                                  className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5 group-hover:text-cyan-400 transition-colors"
                                   fill="none"
                                   stroke="currentColor"
                                   viewBox="0 0 24 24"
@@ -397,8 +507,8 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                   />
                                 </svg>
-                                <span className="text-text-secondary">{audience}</span>
-                              </li>
+                                <span className="text-gray-300 group-hover:text-white transition-colors">{audience}</span>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
@@ -458,7 +568,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
 
             {/* Right Column - Purchase Card (Desktop 1/3) - Sticky */}
             <div className="hidden lg:block lg:col-span-1">
-              <div className={`sticky ${saleStatus.isActive ? 'top-36' : 'top-24'} relative`}>
+              <div className={`sticky ${saleStatus.isActive ? 'top-36' : 'top-24'}`}>
                 <PreviewCard
                   course={course}
                   hasPurchased={hasPurchased}
@@ -559,23 +669,24 @@ function PreviewCard({
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="relative bg-gradient-to-br from-card-bg via-card-bg to-card-bg/80 border-2 border-accent-cyan/30 rounded-xl p-5 space-y-4 shadow-2xl shadow-accent-cyan/10 backdrop-blur-sm overflow-hidden"
+      className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-black border-2 border-green-500/40 rounded-xl p-5 space-y-4 shadow-2xl shadow-green-500/20 backdrop-blur-xl overflow-hidden"
     >
-      {/* Decorative corner accents - smaller */}
-      <div className="absolute top-0 right-0 w-20 h-20 bg-accent-cyan/5 rounded-full blur-2xl"></div>
-      <div className="absolute bottom-0 left-0 w-20 h-20 bg-accent-blue/5 rounded-full blur-2xl"></div>
+      {/* Enhanced glow effects */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-green-500/20 blur-xl pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl"></div>
 
       <div className="relative z-10">
       {!hasPurchased ? (
         <>
-          {/* Pricing - COMPACT */}
-          <div className="text-center pb-4 border-b border-accent-cyan/20 mb-4">
+          {/* Pricing - ENHANCED CYBERPUNK */}
+          <div className="text-center pb-4 border-b border-green-500/30 mb-4">
             <div className="flex items-center justify-center gap-3 mb-2">
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: "spring" }}
-                className="text-4xl font-bold bg-gradient-to-r from-accent-cyan via-accent-blue to-accent-cyan bg-clip-text text-transparent"
+                className="text-4xl font-bold bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(0,255,65,0.5)]"
               >
                 ${currentPrice.toFixed(2)}
               </motion.span>
