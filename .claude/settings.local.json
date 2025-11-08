@@ -10,7 +10,10 @@
       "Bash(npm run db:migrate:*)",
       "WebSearch",
       "Bash(npx prisma migrate:*)",
-      "Bash(docker build:*)"
+      "Bash(docker build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git rebase:*)"
     ],
     "deny": [],
     "ask": []
