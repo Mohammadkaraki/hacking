@@ -274,59 +274,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Team Section */}
-      <div className="max-w-6xl mx-auto px-4 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 bg-gradient-to-r from-accent-cyan to-accent-blue bg-clip-text text-transparent">
-            Meet Our Expert Team
-          </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-accent-cyan to-accent-blue mx-auto rounded-full mb-4"></div>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            Learn from industry veterans with decades of combined experience in cybersecurity
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team.map((member, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-gradient-to-br from-card-bg via-card-bg to-card-bg/80 border-2 border-accent-cyan/20 rounded-xl overflow-hidden hover:border-accent-cyan/40 transition-all group"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card-bg via-transparent to-transparent"></div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                <p className="text-accent-cyan text-sm mb-2">{member.role}</p>
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {member.credentials.split(', ').map((cert, i) => (
-                    <span key={i} className="px-2 py-0.5 bg-accent-cyan/10 text-accent-cyan text-xs rounded-full">
-                      {cert}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-text-secondary text-sm">{member.bio}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
       {/* Timeline Section */}
       <div className="max-w-6xl mx-auto px-4 py-20">
         <motion.div
