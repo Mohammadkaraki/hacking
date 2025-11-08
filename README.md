@@ -163,7 +163,17 @@ npm run db:studio         # Open Prisma Studio
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### AWS EC2 with Docker (Current Setup)
+
+This application is deployed using:
+- **EC2**: AWS t2.micro instance with Docker
+- **RDS**: PostgreSQL database in AWS RDS
+- **S3**: Course file storage
+- **GitHub Actions**: Automated CI/CD pipeline
+
+Every push to `main` branch automatically builds and deploys to production!
+
+### Vercel (Alternative)
 
 \`\`\`bash
 vercel
