@@ -238,60 +238,146 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  {/* Breadcrumb */}
-                  <div className="flex items-center gap-2 text-sm text-text-secondary mb-4">
-                    <button onClick={() => router.push('/')} className="hover:text-accent-cyan transition-colors">
+                  {/* Breadcrumb - Enhanced */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-2 text-sm mb-6 bg-gray-900/40 backdrop-blur-sm border border-green-500/20 rounded-lg px-4 py-2 w-fit"
+                  >
+                    <button onClick={() => router.push('/')} className="text-gray-400 hover:text-green-400 transition-colors font-medium">
                       Home
                     </button>
-                    <span>/</span>
-                    <button onClick={() => router.push('/')} className="hover:text-accent-cyan transition-colors">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <button onClick={() => router.push('/courses')} className="text-gray-400 hover:text-green-400 transition-colors font-medium">
                       Courses
                     </button>
-                    <span>/</span>
-                    <span>{course.category}</span>
-                  </div>
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <span className="text-green-400 font-semibold">{course.category}</span>
+                  </motion.div>
 
-                  {/* Difficulty Badge */}
-                  <div className="mb-4 flex items-center gap-3">
-                    <Badge variant={course.difficulty.toLowerCase() as any}>
-                      {course.difficulty}
-                    </Badge>
+                  {/* Difficulty Badge & Tags - Enhanced */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="mb-6 flex flex-wrap items-center gap-3"
+                  >
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-green-500 to-cyan-500 rounded-full opacity-0 group-hover:opacity-75 blur transition-opacity"></div>
+                      <Badge variant={course.difficulty.toLowerCase() as any}>
+                        {course.difficulty}
+                      </Badge>
+                    </div>
+
                     {saleStatus.isActive && saleStatus.discountPercentage && (
                       <motion.div
                         initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="px-4 py-1.5 bg-gradient-to-r from-accent-red to-red-600 text-white text-sm font-bold rounded-full shadow-lg shadow-accent-red/30"
+                        animate={{ scale: [0, 1.2, 1] }}
+                        transition={{ delay: 0.2, type: "spring" }}
+                        className="relative group"
                       >
-                        🔥 {saleStatus.discountPercentage}% OFF
+                        <div className="absolute -inset-1 bg-red-500 rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                        <div className="relative px-4 py-1.5 bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white text-sm font-black rounded-full shadow-lg">
+                          🔥 {saleStatus.discountPercentage}% OFF
+                        </div>
                       </motion.div>
                     )}
-                  </div>
 
-                  {/* Title - ENHANCED WITH GLOW */}
-                  <motion.h1
-                    className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 leading-tight"
+                    {/* Popular Badge */}
+                    {course.students && course.students > 1000 && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.3 }}
+                        className="px-4 py-1.5 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/40 text-purple-300 text-sm font-bold rounded-full backdrop-blur-sm"
+                      >
+                        ⭐ Popular
+                      </motion.div>
+                    )}
+                  </motion.div>
+
+                  {/* Title - ULTRA ENHANCED */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, type: "spring", stiffness: 100 }}
+                    className="relative mb-6"
+                  >
+                    {/* Animated glow behind title */}
+                    <motion.div
+                      className="absolute -inset-4 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-blue-500/20 rounded-2xl blur-2xl"
+                      animate={{
+                        opacity: [0.3, 0.6, 0.3],
+                        scale: [1, 1.05, 1],
+                      }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
+                    <h1 className="relative text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-black leading-tight">
+                      <span className="bg-gradient-to-r from-white via-green-400 to-cyan-400 bg-clip-text text-transparent" style={{
+                        filter: 'drop-shadow(0 0 30px rgba(0,255,65,0.4))'
+                      }}>
+                        {course.title}
+                      </span>
+                    </h1>
+                  </motion.div>
+
+                  {/* Value Proposition / Description - Enhanced */}
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-3xl"
+                  >
+                    {course.description}
+                  </motion.p>
+
+                  {/* Quick Features Highlight - NEW */}
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
+                    transition={{ delay: 0.4 }}
+                    className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
                   >
-                    <span className="bg-gradient-to-r from-white via-green-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(0,255,65,0.3)]">
-                      {course.title}
-                    </span>
-                  </motion.h1>
-
-                  {/* Value Proposition / Description */}
-                  <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed max-w-3xl">
-                    {course.description}
-                  </p>
+                    {[
+                      { icon: '⏱️', label: 'Duration', value: course.duration },
+                      { icon: '📚', label: 'Lessons', value: `${course.modules?.reduce((acc, m) => acc + (m.lessons?.length || 0), 0) || 0}` },
+                      { icon: '🎓', label: 'Students', value: `${Math.floor((course.students || 0) / 1000)}K+` },
+                      { icon: '⭐', label: 'Rating', value: course.rating.toFixed(1) }
+                    ].map((item, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.5 + idx * 0.1, type: "spring" }}
+                        className="relative group"
+                      >
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-green-500 to-cyan-500 rounded-lg opacity-0 group-hover:opacity-100 blur transition-opacity"></div>
+                        <div className="relative bg-gray-900/60 backdrop-blur-sm border border-green-500/30 rounded-lg p-4 text-center group-hover:border-green-500/60 transition-colors">
+                          <div className="text-2xl mb-1">{item.icon}</div>
+                          <div className="text-xs text-gray-400 mb-1">{item.label}</div>
+                          <div className="text-lg font-bold text-green-400">{item.value}</div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
 
                   {/* Social Proof - Above fold, near CTA */}
-                  <div className="mb-6">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="mb-6"
+                  >
                     <CourseStats
                       rating={course.rating}
                       students={course.students || 0}
                       lastUpdated={course.lastContentUpdate || course.updatedAt}
                     />
-                  </div>
+                  </motion.div>
 
                   {/* Primary CTA - ABOVE THE FOLD (Mobile) */}
                   <div className="lg:hidden mb-6">
@@ -514,16 +600,6 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                         </div>
                       )}
 
-                      {/* Instructor */}
-                      <InstructorCard
-                        name={course.instructor}
-                        bio={course.instructorBio}
-                        avatar={course.instructorAvatar}
-                        credentials={course.instructorCredentials}
-                        rating={course.rating}
-                        students={course.students}
-                      />
-
                       {/* FAQ */}
                       {course.faqs && Array.isArray(course.faqs) && course.faqs.length > 0 && (
                         <div>
@@ -669,43 +745,84 @@ function PreviewCard({
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-black border-2 border-green-500/40 rounded-xl p-5 space-y-4 shadow-2xl shadow-green-500/20 backdrop-blur-xl overflow-hidden"
+      className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-black border-2 border-green-500/40 rounded-2xl p-6 space-y-5 shadow-2xl shadow-green-500/30 backdrop-blur-xl overflow-hidden"
     >
-      {/* Enhanced glow effects */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-green-500/20 blur-xl pointer-events-none"></div>
-      <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl"></div>
+      {/* Ultra enhanced glow effects */}
+      <motion.div
+        className="absolute -inset-1 bg-gradient-to-r from-green-500/30 via-cyan-500/30 to-green-500/30 rounded-2xl blur-xl pointer-events-none"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{ duration: 3, repeat: Infinity }}
+      />
+      <div className="absolute top-0 right-0 w-40 h-40 bg-green-500/15 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-40 h-40 bg-cyan-500/15 rounded-full blur-3xl"></div>
+
+      {/* Decorative corner elements */}
+      <div className="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-green-500/30 rounded-tr-lg"></div>
+      <div className="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-green-500/30 rounded-bl-lg"></div>
 
       <div className="relative z-10">
       {!hasPurchased ? (
         <>
-          {/* Pricing - ENHANCED CYBERPUNK */}
-          <div className="text-center pb-4 border-b border-green-500/30 mb-4">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring" }}
-                className="text-4xl font-bold bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(0,255,65,0.5)]"
-              >
-                ${currentPrice.toFixed(2)}
-              </motion.span>
-              {discount > 0 && (
-                <div className="flex flex-col items-start">
-                  <span className="text-base text-text-secondary line-through">
-                    ${course.originalPrice.toFixed(2)}
-                  </span>
-                  <motion.div
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    className="px-2 py-0.5 bg-gradient-to-r from-accent-red to-red-600 text-white text-xs font-bold rounded-full"
-                  >
-                    {discount}% OFF
-                  </motion.div>
-                </div>
-              )}
-            </div>
-            <p className="text-xs text-text-secondary">One-time payment • Lifetime access</p>
+          {/* Pricing - ULTRA ENHANCED */}
+          <div className="text-center pb-6 border-b-2 border-green-500/30 mb-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1, type: "spring" }}
+              className="relative inline-block mb-3"
+            >
+              {/* Animated price glow */}
+              <motion.div
+                className="absolute -inset-4 bg-gradient-to-r from-green-500/40 to-cyan-500/40 rounded-full blur-2xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <div className="relative flex items-center justify-center gap-4">
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: "spring" }}
+                  className="text-5xl font-black bg-gradient-to-br from-green-400 via-cyan-400 to-green-400 bg-clip-text text-transparent"
+                  style={{ filter: 'drop-shadow(0 0 20px rgba(0,255,65,0.6))' }}
+                >
+                  ${currentPrice.toFixed(2)}
+                </motion.span>
+                {discount > 0 && (
+                  <div className="flex flex-col items-start gap-1">
+                    <span className="text-lg text-gray-500 line-through">
+                      ${course.originalPrice.toFixed(2)}
+                    </span>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.4, type: "spring" }}
+                      className="px-3 py-1 bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white text-xs font-black rounded-full shadow-lg shadow-red-500/50"
+                    >
+                      SAVE {discount}%
+                    </motion.div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex items-center justify-center gap-2 text-sm text-gray-400"
+            >
+              <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>One-time payment</span>
+              <span className="text-green-400">•</span>
+              <span>Lifetime access</span>
+            </motion.div>
           </div>
 
           {/* Countdown Timer - COMPACT */}

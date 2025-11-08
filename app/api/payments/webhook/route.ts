@@ -15,11 +15,18 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    // In production, you should set STRIPE_WEBHOOK_SECRET
-    // For now, we'll process events directly
-    event = JSON.parse(body);
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-    console.log('🔔 Webhook received:', event.type);
+    if (webhookSecret && signature) {
+      // Verify webhook signature (PRODUCTION & DEVELOPMENT with Stripe CLI)
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+      console.log('🔔 Webhook received (verified):', event.type);
+    } else {
+      // Fallback for development without webhook secret (NOT RECOMMENDED)
+      console.warn('⚠️ Processing webhook WITHOUT signature verification - set STRIPE_WEBHOOK_SECRET');
+      event = JSON.parse(body);
+      console.log('🔔 Webhook received (unverified):', event.type);
+    }
 
     // Handle the event
     switch (event.type) {

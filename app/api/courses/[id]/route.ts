@@ -48,6 +48,10 @@ export async function GET(
       },
     });
 
+    // Use the higher value between initial students and actual purchases
+    // This allows displaying initial student count for new courses
+    const totalStudents = Math.max(course.students || 0, purchaseCount);
+
     // Calculate average rating from reviews
     let averageRating = course.rating;
     if (course.reviews && course.reviews.length > 0) {
@@ -64,7 +68,7 @@ export async function GET(
     return NextResponse.json({
       ...course,
       fileSize: course.fileSize ? Number(course.fileSize) : null,
-      students: purchaseCount,
+      students: totalStudents,
       rating: Number(averageRating.toFixed(1)),
     });
   } catch (error) {

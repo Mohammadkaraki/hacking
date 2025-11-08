@@ -5,6 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import GlowButton from '@/components/ui/GlowButton';
+import DownloadModal from '@/components/ui/DownloadModal';
 import MatrixRainBright from '@/components/effects/MatrixRainBright';
 import GridPatternBright from '@/components/effects/GridPatternBright';
 import ParticleFieldBright from '@/components/effects/ParticleFieldBright';
@@ -18,6 +19,12 @@ export default function DashboardPage() {
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [loading, setLoading] = useState(true);
   const [downloadingCourseId, setDownloadingCourseId] = useState<string | null>(null);
+
+  // Download modal state
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadError, setDownloadError] = useState<string>('');
+  const [currentCourseTitle, setCurrentCourseTitle] = useState<string>('');
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -43,7 +50,6 @@ export default function DashboardPage() {
         if (response.ok) {
           const data = await response.json();
           console.log('Payment verified:', data);
-          alert('🎉 Payment successful! Your course is now available.');
 
           // Remove query params from URL
           router.replace('/dashboard');
@@ -79,8 +85,16 @@ export default function DashboardPage() {
     }
   };
 
-  const handleDownload = async (courseId: string) => {
+  const handleDownload = async (courseId: string, courseTitle: string) => {
+    // Reset state
+    setDownloadUrl(null);
+    setDownloadError('');
+    setCurrentCourseTitle(courseTitle);
+
+    // Show modal immediately
+    setShowDownloadModal(true);
     setDownloadingCourseId(courseId);
+
     try {
       const response = await fetch(`/api/downloads/generate/${courseId}`, {
         method: 'POST',
@@ -90,18 +104,21 @@ export default function DashboardPage() {
         throw new Error('Failed to generate download link');
       }
 
-      const { downloadUrl } = await response.json();
-
-      // Open download link in new tab
-      window.open(downloadUrl, '_blank');
-
-      alert('Download started! The link will expire in 24 hours.');
+      const { downloadUrl: url } = await response.json();
+      setDownloadUrl(url);
     } catch (error) {
       console.error('Error downloading course:', error);
-      alert('Failed to generate download link. Please try again.');
+      setDownloadError('Failed to generate download link. Please try again.');
     } finally {
       setDownloadingCourseId(null);
     }
+  };
+
+  const closeDownloadModal = () => {
+    setShowDownloadModal(false);
+    setDownloadUrl(null);
+    setDownloadError('');
+    setCurrentCourseTitle('');
   };
 
   if (status === 'loading' || loading) {
@@ -376,7 +393,7 @@ export default function DashboardPage() {
                     {purchase.status === 'completed' && purchase.course?.s3FileKey ? (
                       <GlowButton
                         fullWidth
-                        onClick={() => handleDownload(purchase.courseId)}
+                        onClick={() => handleDownload(purchase.courseId, purchase.course?.title || 'Course')}
                         disabled={downloadingCourseId === purchase.courseId}
                       >
                         {downloadingCourseId === purchase.courseId ? (
@@ -407,6 +424,28 @@ export default function DashboardPage() {
                           </span>
                         )}
                       </GlowButton>
+                    ) : purchase.status === 'completed' ? (
+                      <button
+                        disabled
+                        className="w-full px-4 py-2 bg-gray-700/50 border border-gray-600 text-gray-400 rounded-lg cursor-not-allowed"
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                            />
+                          </svg>
+                          Files Coming Soon
+                        </span>
+                      </button>
                     ) : (
                       <button
                         disabled
@@ -422,6 +461,16 @@ export default function DashboardPage() {
           )}
         </motion.div>
       </div>
+
+      {/* Download Modal */}
+      <DownloadModal
+        isOpen={showDownloadModal}
+        onClose={closeDownloadModal}
+        courseTitle={currentCourseTitle}
+        downloadUrl={downloadUrl}
+        isGenerating={downloadingCourseId !== null && !downloadUrl && !downloadError}
+        error={downloadError}
+      />
     </div>
   );
 }

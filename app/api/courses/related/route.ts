@@ -40,11 +40,13 @@ export async function GET(request: NextRequest) {
             status: 'completed',
           },
         });
+        // Use the higher value between initial students and actual purchases
+        const totalStudents = Math.max(course.students || 0, purchaseCount);
 
         return {
           ...course,
           fileSize: course.fileSize ? Number(course.fileSize) : null,
-          students: purchaseCount,
+          students: totalStudents,
         };
       })
     );

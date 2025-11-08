@@ -410,7 +410,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
                         <h4 className="text-white font-bold text-base truncate">{course.title}</h4>
-                        <Badge variant={course.difficulty.toLowerCase() as any} size="sm">
+                        <Badge variant={course.difficulty.toLowerCase() as any}>
                           {course.difficulty}
                         </Badge>
                       </div>

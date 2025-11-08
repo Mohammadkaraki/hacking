@@ -3,6 +3,10 @@ import { Space_Grotesk, Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
+// Force dynamic rendering for all pages (no static generation)
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",

@@ -8,7 +8,9 @@
       "Bash(powershell -Command \"Compress-Archive -Path course-content.txt -DestinationPath ethical-hacking.zip -Force\")",
       "Bash(npm run db:generate:*)",
       "Bash(npm run db:migrate:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npx prisma migrate:*)",
+      "Bash(docker build:*)"
     ],
     "deny": [],
     "ask": []

@@ -84,12 +84,93 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-bg-dark via-bg-dark/98 to-bg-dark">
-      {/* Background Effects */}
-      <MatrixRainBright />
-      <GridPatternBright />
-      <ParticleFieldBright />
-      <CursorTrail />
+    <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #0f1419 50%, #1e293b 75%, #0a0e27 100%)' }}>
+      {/* PROFESSIONAL HACKER BACKGROUND - Same as courses page */}
+
+      {/* Layer 1: Deep rich gradient base */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-gray-900/95 to-slate-900/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-green-950/10 via-transparent to-cyan-950/10"></div>
+      </div>
+
+      {/* Layer 2: Animated flowing color spotlights */}
+      <motion.div
+        className="absolute inset-0 opacity-25"
+        animate={{
+          background: [
+            'radial-gradient(circle at 20% 20%, rgba(0,255,65,0.2) 0%, transparent 40%)',
+            'radial-gradient(circle at 80% 80%, rgba(0,255,255,0.2) 0%, transparent 40%)',
+            'radial-gradient(circle at 50% 50%, rgba(0,150,255,0.2) 0%, transparent 40%)',
+            'radial-gradient(circle at 20% 20%, rgba(0,255,65,0.2) 0%, transparent 40%)',
+          ]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+      />
+
+      {/* Layer 3: Prominent grid pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-25">
+        <div className="absolute inset-0 grid-pattern"></div>
+      </div>
+
+      {/* Layer 4: Binary code rain - Professional & Subtle */}
+      <div className="absolute inset-0 overflow-hidden opacity-12 pointer-events-none">
+        {Array.from({ length: 18 }).map((_, i) => (
+          <motion.div
+            key={`binary-${i}`}
+            className="absolute font-mono text-sm leading-relaxed"
+            style={{
+              left: `${i * 5.56}%`,
+              color: i % 3 === 0 ? '#00ff41' : i % 3 === 1 ? '#00ffff' : '#00ff99',
+              textShadow: '0 0 5px currentColor',
+            }}
+            animate={{
+              y: ['-100%', '100vh'],
+            }}
+            transition={{
+              duration: Math.random() * 25 + 20,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: Math.random() * 12,
+            }}
+          >
+            {Array.from({ length: 30 }).map((_, j) => (
+              <div key={j}>{Math.random() > 0.5 ? '1' : '0'}</div>
+            ))}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Layer 5: Large atmospheric glowing orbs */}
+      <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-green-500/12 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute top-1/3 right-20 w-[450px] h-[450px] bg-cyan-500/12 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-20 right-1/3 w-[480px] h-[480px] bg-green-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      {/* Layer 6: Glowing nodes */}
+      <div className="absolute top-1/5 left-1/6 w-3 h-3 bg-green-400 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#00ff41]"></div>
+      <div className="absolute top-2/5 right-1/5 w-3 h-3 bg-cyan-400 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#00ffff]" style={{ animationDelay: '250ms' }}></div>
+      <div className="absolute bottom-1/4 left-2/5 w-3 h-3 bg-green-500 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#00ff41]" style={{ animationDelay: '500ms' }}></div>
+      <div className="absolute top-3/5 right-1/4 w-3 h-3 bg-blue-400 rounded-full blur-sm animate-pulse pointer-events-none shadow-[0_0_20px_#0096ff]" style={{ animationDelay: '750ms' }}></div>
+
+      {/* Layer 7: Hexagonal tech pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill='none' stroke='%2300ff41' stroke-width='1'/%3E%3C/svg%3E")`,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Layer 8: Scanline effect */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.07]"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.15) 2px, rgba(0,255,65,0.15) 4px)',
+        }}
+      />
+
+      {/* Layer 9: Vignette */}
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-slate-950/70 pointer-events-none"></div>
 
       {/* Main Content */}
       <div className="relative z-10">

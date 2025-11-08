@@ -46,9 +46,17 @@ export async function POST(
     const expiryHours = parseInt(process.env.DOWNLOAD_LINK_EXPIRY_HOURS || '24', 10);
     const expiresInSeconds = expiryHours * 60 * 60;
 
+    // Create a clean filename from course title
+    const cleanFilename = purchase.course.title
+      .replace(/[^a-zA-Z0-9\s-]/g, '') // Remove special characters
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .substring(0, 100) // Limit length
+      + '.zip';
+
     const downloadUrl = await generateDownloadUrl(
       purchase.course.s3FileKey,
-      expiresInSeconds
+      expiresInSeconds,
+      cleanFilename // Pass clean filename
     );
 
     // Get client IP address
